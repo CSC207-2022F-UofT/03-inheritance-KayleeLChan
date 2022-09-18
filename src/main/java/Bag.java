@@ -5,6 +5,8 @@
  * 1. Introduction to Java helpful.
  */
 
+import java.util.Objects;
+
 public abstract class Bag {
     /*
      * TODO: Create the following private instance variables
@@ -13,9 +15,10 @@ public abstract class Bag {
      *       - an int named capacity
      *       - an array of Strings named contents
      */
-
-
-
+    private String color;
+    private int numberOfContents;
+    private int capacity;
+    private String[] contents;
 
     /*
      * TODO: Create a constructor that takes two arguments:
@@ -26,9 +29,12 @@ public abstract class Bag {
      * be empty (e.g. numberOfContents is 0 and an empty String array for
      * its contents.)
      */
-
-
-
+    public Bag(String color, int capacity) {
+        this.color = color;
+        this.capacity = capacity;
+        this.numberOfContents = 0;
+        this.contents = new String[this.capacity];
+    }
 
     /*
      * TODO: Create a variety of 'getter' functions.
@@ -37,18 +43,26 @@ public abstract class Bag {
      *           - getNumberOfContents
      *           - getCapacity
      */
+    public String getColor() {
+        return this.color;
+    }
 
+    public int getNumberOfContents() {
+        return this.numberOfContents;
+    }
 
-
+    public int getCapacity() {
+        return this.capacity;
+    }
 
     /*
      * TODO: Create a setter function called setColor which sets the
      *       color of this bag to the given color.
      */
 
-
-
-
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     /*
      * TODO: Create a method called addItem that takes in a String
@@ -60,10 +74,26 @@ public abstract class Bag {
      *       This method should return true if the item was added
      *       and false otherwise.
      */
-
-
-
-
+    /**
+     * And an item to the bag.
+     * If added, return true.
+     * If not added, return false.
+     *
+     * @param item
+     * @return boolean
+     */
+    public boolean addItem(String item) {
+        if (this.numberOfContents < this.capacity) {
+            for (int i = 0; i < this.capacity; i++) {
+                if (this.contents[i].isEmpty()) {
+                    this.numberOfContents++;
+                    this.contents[i] = item;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * TODO: Create a method called popItem that returns a String.
@@ -75,10 +105,27 @@ public abstract class Bag {
      *
      * @return
      */
+    public String popItem() {
+        String lastItem = "";
+        String[] newArray = new String[this.capacity];
 
+        for (int i = this.capacity - 1; i >= 0; i--) {
+            if (!this.contents[i].isEmpty() && lastItem.equals("")) {
+                lastItem = this.contents[i];
+            }
+        }
 
-
-
+        for (int z = 0; z < this.capacity; z++) {
+            if (this.contents[z].equals(lastItem)) {
+                this.contents = newArray;
+                this.numberOfContents --;
+                return lastItem;
+            } else if (!this.contents[z].isEmpty()) {
+                newArray[z] = this.contents[z];
+            }
+        }
+        return null;
+    }
 
     /**
      * Increase this bag's capacity by n.
@@ -87,7 +134,7 @@ public abstract class Bag {
      */
     public void increaseCapacity(int n) {
         // TODO: Implement this method.
-
+        this.capacity += n;
     }
 
     /**
