@@ -85,7 +85,7 @@ public abstract class Bag {
     public boolean addItem(String item) {
         if (this.numberOfContents < this.capacity) {
             for (int i = 0; i < this.capacity; i++) {
-                if (this.contents[i].isEmpty()) {
+                if (this.contents[i] == null) {
                     this.numberOfContents++;
                     this.contents[i] = item;
                     return true;
@@ -106,22 +106,18 @@ public abstract class Bag {
      * @return
      */
     public String popItem() {
-        String lastItem = "";
-        String[] newArray = new String[this.capacity];
+        String lastItem;
 
-        for (int i = this.capacity - 1; i >= 0; i--) {
-            if (!this.contents[i].isEmpty() && lastItem.equals("")) {
-                lastItem = this.contents[i];
-            }
-        }
-
-        for (int z = 0; z < this.capacity; z++) {
-            if (this.contents[z].equals(lastItem)) {
-                this.contents = newArray;
-                this.numberOfContents --;
-                return lastItem;
-            } else if (!this.contents[z].isEmpty()) {
-                newArray[z] = this.contents[z];
+        if (this.numberOfContents == 0) {
+            return null;
+        } else {
+            for (int i = (this.capacity - 1); i >= 0; i--) {
+                if (!(this.contents[i] == null)) {
+                    lastItem = this.contents[i];
+                    this.contents[i] = null;
+                    this.numberOfContents--;
+                    return lastItem;
+                }
             }
         }
         return null;

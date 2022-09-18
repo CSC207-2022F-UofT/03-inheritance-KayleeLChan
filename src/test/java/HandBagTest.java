@@ -67,5 +67,4 @@ public class HandBagTest {
         b.enhance();
         assertEquals(5, b.getCapacity());
     }
-
 }
